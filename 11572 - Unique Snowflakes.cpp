@@ -31,8 +31,6 @@ using namespace std;
 #define per(i,j,k) for(int i = j; i > k; i--)
 
 #define PI acos(-1.0)
-#define INF_MAX 2147483647
-#define INF_MIN -2147483647
 
 #define pb(x) push_back(x)
 #define ppb() pop_back()
@@ -47,6 +45,7 @@ using namespace std;
 #define clr(ara) mem(ara,0)
 #define st(ara) mem(ara,-1)
 #define all(a) a.begin(),a.end()
+//cerr << "Time elapsed: " << 1.0 * clock() / CLOCKS_PER_SEC << " s.\n";
 
 typedef long long LL;
 typedef unsigned long long ULL;
@@ -58,52 +57,49 @@ typedef vector< PII > VII;
 int dx[] = {-1, 1, 0, 0, -1, -1, 1, 1};
 int dy[] = {0, 0, 1, -1, -1, 1, -1, 1};
 
-/*LL bs(LL in){
-    LL lo = 0, hi = k - 1, mid, ret = -1;
-
-    while(lo <= hi){
-        mid = ((lo+hi) >> 1);
-
-        if(bk[mid] <= in){
-            ret = mid;
-            lo = mid + 1;
-        }
-
-        else
-            hi = mid - 1;
-    }
-
-    return ret;
-}*/
-
 ///=>=>=>=>=>=>=>=>=>00100<=<=<=<=<=<=<=<=<=///
 
-VI v[1000010];
+int a[1111111];
+set<int> st;
+set<int> :: iterator it;
 
 int main(){
     //std::ios_base::sync_with_stdio(0);cin.tie(0);
-    //FI;//FO;
+    //FI;FO;
 
     int t = 0, z = 0, len;
 
-    int n, k = 0, m = 0, bam = 0, dan = 0; int ans = 0;
+    int n, k = 0, m = 0; int ans = 0;
 
-    while(sii(n,m) != EOF){
-        rep(l,1000010) v[l].clear();
+    si(t);
 
-        rep(l,n){
-            si(k);
-            v[k].pb(l+1);
+    while(t--){
+        si(n);
+        rep(l,n) si(a[l]);
+
+        st.clear();
+        ans = 0;
+
+        int i = 0, j = 0;
+
+        while(i < n && j < n){
+            it = st.find(a[j]);
+
+            if(it == st.end()){
+                st.insert(a[j]);
+                j++;
+            }
+
+            else{
+                st.erase(a[i]);
+                i++;
+            }
+
+            ans = max(ans, (abs(j-i)));
         }
 
-        rep(l,m){
-            sii(k,t);
-
-            if(k > sz(v[t])) pi(0);
-            else pi(v[t][k-1]);
-
-            NL;
-        }
+        pi(ans);
+        NL;
     }
 
     return 0;

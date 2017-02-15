@@ -78,32 +78,32 @@ int dy[] = {0, 0, 1, -1, -1, 1, -1, 1};
 
 ///=>=>=>=>=>=>=>=>=>00100<=<=<=<=<=<=<=<=<=///
 
-VI v[1000010];
+char a[100010];
 
 int main(){
     //std::ios_base::sync_with_stdio(0);cin.tie(0);
-    //FI;//FO;
+    //FI;FO;
 
     int t = 0, z = 0, len;
 
-    int n, k = 0, m = 0, bam = 0, dan = 0; int ans = 0;
+    LL n, k = 0, m = 0, bam = 0, dan = 0; LL ans = 0;
 
-    while(sii(n,m) != EOF){
-        rep(l,1000010) v[l].clear();
+    while(ss(a) != EOF){
+        len = ssz(a);
 
-        rep(l,n){
-            si(k);
-            v[k].pb(l+1);
+        list<char> ans;
+        list<char> :: iterator it = ans.begin();
+
+        rep(l,len){
+            if(a[l] == '[') it = ans.begin();
+            else if(a[l] == ']') it = ans.end();
+            else ans.insert(it, a[l]);
         }
 
-        rep(l,m){
-            sii(k,t);
+        for(auto i : ans)
+            putchar(i);
 
-            if(k > sz(v[t])) pi(0);
-            else pi(v[t][k-1]);
-
-            NL;
-        }
+        NL;
     }
 
     return 0;
