@@ -85,24 +85,23 @@ int Union(int a, int b){
 }
 
 int main(){
-    //std::ios_base::sync_with_stdio(0);cin.tie(0);
+    std::ios_base::sync_with_stdio(0);cin.tie(0);
     //FI;//FO;
 
     int t = 0, z = 0, len;
 
     int n = 0, k = 0, m = 0; int ans = 0;
 
-    si(t);
+    cin >> t;
 
     while(t--){
         rep(l,100010) par[l] = l;
         clr(cnt);
         int id = 0;
-        map<string,int> mp;
-        si(n);
+        unordered_map<string,int> mp;
+        cin >> n;
         rep(l,n){
-            ss(a);
-            ss(b);
+            cin >> a >> b;
             if(!mp.count(a)){
                 mp[a] = id++;
             }
@@ -110,8 +109,7 @@ int main(){
                 mp[b] = id++;
             }
             k = Union(mp[a],mp[b]);
-            pi(k);
-            NL;
+            cout << k << nl;
         }
     }
 
