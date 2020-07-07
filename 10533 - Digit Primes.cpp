@@ -1,134 +1,118 @@
-/// Name: MD. Samshad Rahman
-/// Prob: 10533 - Digit Primes
-
-#include <bits/stdc++.h>
-
-#define si(x) scanf("%d",&x)
-#define sii(x,y) scanf("%d %d",&x,&y)
-#define siii(x,y,z) scanf("%d %d %d",&x,&y,&z)
-#define sl(x) scanf("%lld",&x)
-#define sll(x,y) scanf("%lld %lld",&x,&y)
-#define slll(x,y,z) scanf("%lld %lld %lld",&x,&y,&z)
-#define ss(ch) scanf("%s",ch)
-#define ci(x) cin >> x
-#define cii(x,y) cin >> x >> y
-#define ciii(x,y,z) cin >> x >> y >> z
-#define coi(x) cout << x
-#define coii(x,y) cout << x << " " << y
-#define coiii(x,y,z) cout << x << " " << y << " " << z
-#define pi(x) printf("%d",x)
-#define pii(x,y) printf("%d %d",x,y)
-#define piii(x,y,z) printf("%d %d %d",x,y,z)
-#define pl(x) printf("%lld",x)
-#define pll(x,y) printf("%lld %lld",x,y)
-#define plll(x,y,z) printf("%lld %lld %lld",x,y,z)
-#define ps(ch) printf("%s",ch)
-#define sf scanf
-#define pf printf
-#define pcs(x,y) printf("Case %d: %s", x, y)
-#define pci(x,y) printf("Case %d: %d", x, y)
-#define pcl(x,y) printf("Case %lld: %lld", x, y)
-#define pcii(x,y,z) printf("Case %d: %d %d", x, y, z)
-#define pcll(x,y,z) printf("Case %lld: %lld %lld", x, y, z)
-#define case(x) printf("Case %d:", ++x)
-#define ccase(x) cout << "Case " << ++x << ":"
-#define NL printf("\n")
-#define debug(x) printf("Debug  %d !!\n",x)
-#define mod 1000000007
-#define FI freopen("in.txt","r",stdin)
-#define FO freopen("out.txt","w",stdout)
-
-#define FOR(i,j,k) for(i = j; i < k; i++)
-#define REV(i,j,k) for(i = j; i > k; i--)
-#define PI acos(-1.0)
-
-#define INF_MAX 2147483647
-#define INF_MIN -2147483647
-#define sz 100
-
-#define pb(x) push_back(x)
-//#define sz(x) x.size()
-
-#define mem(ara,val) memset(ara,val,sizeof(ara))
-#define eps 1e-9
+#include<bits/stdc++.h>
 
 using namespace std;
 
-typedef long long LL;
-typedef unsigned long long ULL;
-typedef vector<int> VI;
-typedef pair<int,int> PII;
-typedef vector< PII > VII;
+#define FI freopen("in.txt","r",stdin)
+#define FO freopen("out.txt","w",stdout)
+#define nl '\n'
+#define mod 1000000007
+#define MX 500010
 
-bool isUpperCase(char c){return c>='A' && c<='Z';}
-bool isLowerCase(char c){return c>='a' && c<='z';}
-bool isLetter(char c){return c>='A' && c<='Z' || c>='a' && c<='z';}
-bool isDigit(char c){return c>='0' && c<='9';}
-char toLowerCase(char c){return (isUpperCase(c))?(c+32):c;}
-char toUpperCase(char c){return (isLowerCase(c))?(c-32):c;}
+#define PI acos(-1.0)
+#define eps 1e-9
 
-//template<class T> inline T GCD(T a, T b) { if(a<0) return GCD(-a,b); if(b<0)return GCD(a,-b); while(b){b^=a^=b^=a%=b;} return a; }
-//template<class T> inline T LCM(T a, T b) { return a/GCD(a,b)*b; }
+#define eb(x) emplace_back(x)
+#define ppb() pop_back()
+#define sz(x) x.size()
+#define xx first
+#define yy second
+#define mp(a,b) make_pair(a,b)
 
-bool prime[1100000];
-void sieve();
+#define mem(ara,val) memset(ara,val,sizeof(ara))
+#define clr(ara) mem(ara,0)
+#define all(a) a.begin(),a.end()
 
-bool dp(int n){
-    int s = 0;
+#define debug(args...) {dbg,args; cout<<endl;}
 
-    while(n){
-        s += n % 10;
-        n /= 10;
+struct debugger{
+    template<typename T> debugger& operator , (const T& v){
+        cout<<v<<" ";
+        return *this;
+    }
+}dbg;
+
+using ll = long long;
+int dx[] = {-1, 1, 0, 0, -1, -1, 1, 1};
+int dy[] = {0, 0, 1, -1, -1, 1, -1, 1};
+
+struct custom_hash {
+    static uint64_t splitmix64(uint64_t x) {
+        // http://xorshift.di.unimi.it/splitmix64.c
+        x += 0x9e3779b97f4a7c15;
+        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
+        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
+        return x ^ (x >> 31);
     }
 
-    if((prime[s] && s & 1) || s == 2)
-        return 1;
+    size_t operator()(uint64_t x) const {
+        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64(x + FIXED_RANDOM);
+    }
+};
 
-    else
-        return 0;
+const bool ready = [](){
+    std::ios_base::sync_with_stdio(false);cin.tie(nullptr);
+    //cout << fixed << setprecision(12);
+    //FI;//FO;
+    return true;
+}();
+
+///=>=>=>=>=>=>=>=>=>00100<=<=<=<=<=<=<=<=<=///
+
+bool prime[1000010], dprime[1000010];
+int cnt[1000010];
+
+int digitsum(int x){
+    int ret = 0;
+    while(x){
+        ret += (x % 10);
+        x /= 10;
+    }
+    return ret;
+}
+
+void sieve(int n){
+    mem(prime, 1);
+    prime[0] = 0;
+    prime[1] = 0;
+    for(int i = 2; i*i <= n; i++){
+        if(prime[i]){
+            for(int j = i*i; j <= n; j += i){
+                prime[j] = 0;
+            }
+        }
+    }
+}
+
+void build_dprime(int n){
+    clr(dprime);
+    for(int i = 1; i <= n; i++){
+        int s = digitsum(i);
+        if(prime[s] and prime[i])
+            dprime[i] = 1;
+    }
+}
+
+void solve(){
+    int t = 0, z = 0, len;
+    int n = 0, k = 0, m = 0; //int ans = 0;
+
+    int x, y;
+    cin >> x >> y;
+    cout << cnt[y] - cnt[x-1] << nl;
 }
 
 int main(){
-    //std::ios_base::sync_with_stdio(0);
-    //FI;
-    int l, i, n, m, t, s;
-    sieve();
+    //int t = 0, z = 0, len;
+    //int n = 0, k = 0, m = 0; //int ans = 0;
 
-    si(t);
+    sieve(1000000);
+    build_dprime(1000000);
+    for(int i = 1; i <= 1000005; i++) cnt[i] = dprime[i] + cnt[i-1];
 
-    while(t--){
-        sii(m,n);
-        s = 0;
-
-        FOR(l, m, n+1){
-            if(l == 2 || (l & 1 && prime[l])){
-                if(dp(l))
-                    s++;
-            }
-        }
-
-        pi(s);
-        NL;
-    }
-
+    int t = 1;
+    cin >> t;
+    while(t--) solve();
 
     return 0;
-}
-
-void sieve(){
-    int i, j, sqrtn;
-    int n = 1000000;
-
-    mem(prime,1);
-
-    prime[1] = 0;
-
-    sqrtn = (sqrt((double)n));
-
-    for(i = 3; i <= sqrtn; i += 2){
-        if(prime[i] == 1){
-            for(j = i*i; j <= n; j+= i+i)
-                prime[j] = 0;
-        }
-    }
 }
